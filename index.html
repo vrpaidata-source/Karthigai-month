@@ -93,13 +93,81 @@ background:#d99b35;color:#fff;font-size:15px;">
 ♫ இசை ON
 </button>
 
-<script><audio id="bgMusic" loop>
+<script>
+const musicBtn = document.getElementById("musicBtn");
+
+let audioContext;
+let musicTimer;
+let playing = false;
+let noteIndex = 0;
+
+const notes = [
+  261.63, 329.63, 392.00, 329.63,
+  293.66, 349.23, 440.00, 392.00,
+  261.63, 329.63, 392.00, 523.25
+];
+
+function playNote(frequency) {
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+
+  osc.type = "sine";
+  osc.frequency.value = frequency;
+
+  gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(
+    0.07, audioContext.currentTime + 0.08
+  );
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001, audioContext.currentTime + 0.8
+  );
+
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+
+  osc.start();
+  osc.stop(audioContext.currentTime + 0.85);
+}
+
+async function startMusic() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext ||
+      window.webkitAudioContext)();
+  }
+
+  await audioContext.resume();
+
+  playing = true;
+  musicBtn.textContent = "♫ இசை OFF";
+
+  musicTimer = setInterval(() => {
+    playNote(notes[noteIndex]);
+    noteIndex = (noteIndex + 1) % notes.length;
+  }, 650);
+}
+
+function stopMusic() {
+  playing = false;
+  clearInterval(musicTimer);
+  musicBtn.textContent = "♫ இசை ON";
+}
+
+musicBtn.addEventListener("click", async () => {
+  if (playing) {
+    stopMusic();
+  } else {
+    await startMusic();
+  }
+});
+</script>
+
+<audio id="bgMusic" loop preload="auto">
   <source src="./ayyappan-song.mp3" type="audio/mpeg">
 </audio>
 
-<button onclick="
-document.getElementById('bgMusic').play();
+<button id="musicBtn" onclick="
+const song = document.getElementById('bgMusic');
+song.play();
 ">
-♫ பாடலைக் கேட்க
-</button>
-  </body></html>
+♫ ஐயப்பன் பாடல்
+</button></body></html>
