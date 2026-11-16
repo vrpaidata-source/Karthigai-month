@@ -157,12 +157,13 @@ musicBtn.addEventListener("click", async () => {
     await startMusic();
   }
 });
-</script><audio id="bgMusic" loop>
-  <source src="ayyappan-song.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop preload="auto">
+  <source src="./ayyappan-song.mp3" type="audio/mpeg">
 </audio>
 
-<button onclick="
-  document.getElementById('bgMusic').play();
+<button id="musicBtn" onclick="
+const song = document.getElementById('bgMusic');
+song.play();
 ">
-♫ பாடலைக் கேட்க
+♫ ஐயப்பன் பாடல்
 </button></body></html>
