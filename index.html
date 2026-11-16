@@ -145,13 +145,11 @@ async function startMusic() {
     noteIndex = (noteIndex + 1) % notes.length;
   }, 650);
 }
-
 function stopMusic() {
   playing = false;
   clearInterval(musicTimer);
   musicBtn.textContent = "♫ இசை ON";
 }
-
 musicBtn.addEventListener("click", async () => {
   if (playing) {
     stopMusic();
@@ -159,6 +157,4 @@ musicBtn.addEventListener("click", async () => {
     await startMusic();
   }
 });
-</script>
-
-</body></html>
+</script></body></html>
