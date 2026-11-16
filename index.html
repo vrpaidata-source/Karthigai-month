@@ -157,4 +157,12 @@ musicBtn.addEventListener("click", async () => {
     await startMusic();
   }
 });
-</script></body></html>
+</script><audio id="bgMusic" loop>
+  <source src="ayyappan-song.mp3" type="audio/mpeg">
+</audio>
+
+<button onclick="
+  document.getElementById('bgMusic').play();
+">
+♫ பாடலைக் கேட்க
+</button></body></html>
